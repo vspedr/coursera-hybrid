@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('conFusion', ['ionic', 'conFusion.controllers', 'conFusion.services'])
 
-.run(function($ionicPlatform) {
+  .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -22,7 +22,7 @@ angular.module('conFusion', ['ionic', 'conFusion.controllers', 'conFusion.servic
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('app', {
@@ -32,7 +32,7 @@ angular.module('conFusion', ['ionic', 'conFusion.controllers', 'conFusion.servic
     controller: 'AppCtrl'
   })
 
-  .state('app.home', {
+    .state('app.home', {
     url: '/home',
     views: {
       'mainContent': {
@@ -42,34 +42,44 @@ angular.module('conFusion', ['ionic', 'conFusion.controllers', 'conFusion.servic
     }
   })
 
-  .state('app.aboutus', {
-      url: '/aboutus',
-      views: {
-        'mainContent': {
-          templateUrl: 'templates/aboutus.html',
-          controller: "AboutController"
-        }
+    .state('app.aboutus', {
+    url: '/aboutus',
+    views: {
+      'mainContent': {
+        templateUrl: 'templates/aboutus.html',
+        controller: "AboutController"
       }
-    })
-  
-  .state('app.contactus', {
-      url: '/contactus',
-      views: {
-        'mainContent': {
-          templateUrl: 'templates/contactus.html'
-        }
-      }
-    })    .state('app.menu', {
-      url: '/menu',
-      views: {
-        'mainContent': {
-          templateUrl: 'templates/menu.html',
-          controller: 'MenuController'
-        }
-      }
-    })
+    }
+  })
 
-  .state('app.dishdetails', {
+    .state('app.favorites', {
+    url: '/favorites',
+    views: {
+      'mainContent': {
+        templateUrl: 'templates/favorites.html',
+        controller:'FavoritesController'
+      }
+    }
+  })
+
+    .state('app.contactus', {
+    url: '/contactus',
+    views: {
+      'mainContent': {
+        templateUrl: 'templates/contactus.html'
+      }
+    }
+  })    .state('app.menu', {
+    url: '/menu',
+    views: {
+      'mainContent': {
+        templateUrl: 'templates/menu.html',
+        controller: 'MenuController'
+      }
+    }
+  })
+
+    .state('app.dishdetails', {
     url: '/menu/:id',
     views: {
       'mainContent': {
