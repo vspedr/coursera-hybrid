@@ -153,7 +153,7 @@ angular.module('conFusion.controllers', [])
     };
   }])
 
-  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'baseURL', function($scope, $stateParams, menuFactory, baseURL) {
+  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', '$ionicPopover', 'baseURL', function($scope, $stateParams, menuFactory, favoriteFactory, $ionicPopover, baseURL) {
 
     $scope.baseURL = baseURL;
     $scope.dish = {};
@@ -171,7 +171,27 @@ angular.module('conFusion.controllers', [])
       }
     );
 
+    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+      scope: $scope
+    }).then(function(popover) {
+      $scope.popover = popover;
+    });
 
+    $scope.openPopover = function($event) {
+      $scope.popover.show($event);
+    };
+    $scope.closePopover = function() {
+      $scope.popover.hide();
+    };
+    //Cleanup the popover when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.popover.remove();
+    });
+
+    $scope.addFavorite = function() {
+      console.log("index is " + $scope.dish.id);
+      favoriteFactory.addToFavorites($scope.dish.id);
+    };
   }])
 
   .controller('DishCommentController', ['$scope', 'menuFactory', function($scope,menuFactory) {
@@ -230,7 +250,7 @@ angular.module('conFusion.controllers', [])
     $ionicLoading.show({
       template: '<ion-spinner></ion-spinner> Loading...'
     })
-    
+
     $scope.favorites = favoriteFactory.getFavorites();
 
     $scope.dishes = menuFactory.getDishes().query(
