@@ -153,11 +153,12 @@ angular.module('conFusion.controllers', [])
     };
   }])
 
-  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', '$ionicPopover', 'baseURL', function($scope, $stateParams, menuFactory, favoriteFactory, $ionicPopover, baseURL) {
+  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', '$ionicPopover', '$ionicModal', 'baseURL', function($scope, $stateParams, menuFactory, favoriteFactory, $ionicPopover, $ionicModal, baseURL) {
 
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
+    $scope.newComment = {rating:5, comment:"", author:"", date:""};
     $scope.message="Loading ...";
 
     $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
@@ -191,6 +192,34 @@ angular.module('conFusion.controllers', [])
     $scope.addFavorite = function() {
       console.log("index is " + $scope.dish.id);
       favoriteFactory.addToFavorites($scope.dish.id);
+    };
+
+    // Comment form modal
+    
+    $ionicModal.fromTemplateUrl('templates/comment.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.commentModal = modal;
+    });
+
+    // Triggered in the comment modal to close it
+    $scope.closeCommentModal = function() {
+      $scope.commentModal.hide();
+    };
+
+    // Open the comment modal
+    $scope.openCommentModal = function() {
+      $scope.commentModal.show();
+    };
+
+    // Perform the submit comment action when the user submits the comment form
+    $scope.submitComment = function() {
+      $scope.newComment.date = new Date().toISOString();
+      console.log($scope.newComment);
+      $scope.dish.comments.push($scope.newComment);
+      menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
+      $scope.newComment = {rating:5, comment:"", author:"", date:""};
+      $scope.closeCommentModal();
     };
   }])
 
